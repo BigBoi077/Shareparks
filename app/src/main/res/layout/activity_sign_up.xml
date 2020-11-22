@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.SignUpActivity">
+
+    <!-- PS : tu peux clicker sur le logo pour t'apporter sur notre site web du startup weekend -->
+    <!-- Désolé, il n'est pas adapter mobile -->
+    <ImageView
+        android:id="@+id/shareparksBanner"
+        android:onClick="onOpenBrowser"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="42dp"
+        android:src="@drawable/logo" />
+
+    <EditText
+        android:id="@+id/firstNameInput"
+        android:inputType="text"
+        android:hint="@string/nameHint"
+        android:layout_gravity="center"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp" />
+
+    <EditText
+        android:id="@+id/lastNameInput"
+        android:inputType="text"
+        android:hint="@string/lastNameHint"
+        android:layout_gravity="center"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp" />
+
+    <EditText
+        android:id="@+id/usernameInput"
+        android:drawableLeft="@drawable/ic_person"
+        android:inputType="text"
+        android:hint="@string/usernameSignUpHint"
+        android:layout_gravity="center"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp" />
+
+    <EditText
+        android:id="@+id/passwordInput"
+        android:drawableLeft="@drawable/ic_lock"
+        android:inputType="textPassword"
+        android:hint="@string/passwordHint"
+        android:layout_gravity="center"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/launchSingUpButton"
+        android:onClick="onSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/signUpText" />
+
+</LinearLayout>

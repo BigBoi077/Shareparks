@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Shareparks</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">•••••••••••</string>
+    <string name="logInSignUpMessage">Don\'t have an account yet ?</string>
+    <string name="signUpHyperlink"><u>Sign up here</u></string>
+    <string name="logInText">Log In</string>
+    <string name="nameHint">Johnny</string>
+    <string name="lastNameHint">Test</string>
+    <string name="signUpText">Sign Up</string>
+    <string name="usernameSignUpHint">JohnnySkater148</string>
+</resources>
