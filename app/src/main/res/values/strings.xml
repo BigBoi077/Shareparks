@@ -14,4 +14,8 @@
     <string name="addCircleIcon">Post</string>
     <string name="marketIcon">Marketplace</string>
     <string name="accountIcon">Account</string>
+    <string name="terminateSession">Disconnect</string>
+    <string name="reportBug">Report Bug</string>
+    <string name="actionAccountManagement">My Account</string>
+    <string name="appSettings">Settings</string>
 </resources>
