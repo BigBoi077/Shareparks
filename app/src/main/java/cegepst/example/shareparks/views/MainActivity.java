@@ -3,7 +3,10 @@ package cegepst.example.shareparks.views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import cegepst.example.shareparks.R;
 import cegepst.example.shareparks.models.User;
@@ -19,7 +22,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (getIntent().hasExtra("user_path")) {
             userPath = getIntent().getStringExtra("user_path");
-            Log.d("User", userPath);
+            getCurrentUser();
+        }
+    }
+
+    private void getCurrentUser() {
+        try {
+            FileInputStream fileInputStream = openFileInput(userPath);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            user = (User) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

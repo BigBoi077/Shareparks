@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import cegepst.example.shareparks.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private String filename;
     private String firstName;
     private String lastName;
     private String username;
@@ -42,9 +44,22 @@ public class SignUpActivity extends AppCompatActivity {
         if (firstName == null || lastName == null || username == null || password == null) {
             alert("You must fill out each input before proceeding");
             return;
+        } else if (userAlreadyExists()) {
+            alert("This username is already taken");
+            return;
         } else {
             makeUser();
         }
+    }
+
+    private boolean userAlreadyExists() {
+        try {
+            FileInputStream fileInputStream = openFileInput(filename);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void makeUser() {
@@ -79,6 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
         lastName = getEntry(R.id.lastNameInput);
         username = getEntry(R.id.usernameInput);
         password = getEntry(R.id.passwordInput);
+        filename = "user_" + username.toUpperCase();
     }
 
     private String getEntry(int inputId) {

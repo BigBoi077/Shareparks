@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/idHome"
+        android:icon="@drawable/ic_home"
+        android:title="@string/homeIcon" />
 
+    <item
+        android:id="@+id/idMap"
+        android:icon="@drawable/ic_location"
+        android:title="@string/locationIcon" />
+
+    <item
+        android:id="@+id/idPost"
+        android:icon="@drawable/ic_add_circle"
+        android:title="@string/addCircleIcon" />
+
+    <item
+        android:id="@+id/idMarket"
+        android:icon="@drawable/ic_shopping_bag"
+        android:title="@string/marketIcon" />
+
+    <item
+        android:id="@+id/idAccount"
+        android:icon="@drawable/ic_person"
+        android:title="@string/accountIcon" />
 </menu>

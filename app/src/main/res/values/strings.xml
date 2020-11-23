@@ -9,4 +9,9 @@
     <string name="lastNameHint">Test</string>
     <string name="signUpText">Sign Up</string>
     <string name="usernameSignUpHint">JohnnySkater148</string>
+    <string name="homeIcon">Home</string>
+    <string name="locationIcon">Location</string>
+    <string name="addCircleIcon">Post</string>
+    <string name="marketIcon">Marketplace</string>
+    <string name="accountIcon">Account</string>
 </resources>
