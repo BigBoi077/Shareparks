@@ -1,7 +1,5 @@
 package cegepst.example.shareparks.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -32,7 +31,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         if (isLastUserConnected()) {
-            Log.d("Was connecter", "true");
+            Log.d("Was connected", "true");
             startMain();
         }
         user = new User();
@@ -46,7 +45,7 @@ public class LogInActivity extends AppCompatActivity {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             user = (User) objectInputStream.readObject();
             filename = "user_" + user.getUsername().toUpperCase();
-            Log.d("user", user.getFirstName());
+            Log.d("user", String.valueOf(user.isConnected()));
             return user.isConnected();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
