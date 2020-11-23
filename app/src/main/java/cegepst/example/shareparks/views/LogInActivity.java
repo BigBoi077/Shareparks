@@ -2,7 +2,9 @@ package cegepst.example.shareparks.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +22,36 @@ import cegepst.example.shareparks.models.User;
 
 public class LogInActivity extends AppCompatActivity {
 
+    private final String PREF_LAST_USER = "pref_last_user";
     private User user;
+    private String filename;
     private boolean isPasswordOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        if (isLastUserConnected()) {
+            Log.d("Was connecter", "true");
+            startMain();
+        }
         user = new User();
+    }
+
+    private boolean isLastUserConnected() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        String lastUser = preferences.getString(PREF_LAST_USER, "");
+        try {
+            FileInputStream fileInputStream = openFileInput(lastUser);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            user = (User) objectInputStream.readObject();
+            filename = "user_" + user.getUsername().toUpperCase();
+            Log.d("user", user.getFirstName());
+            return user.isConnected();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void onOpenBrowser(View view) {
@@ -51,7 +75,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private boolean fileExist(String username, String password) {
-        String filename = "user_" + username.toUpperCase();
+        filename = "user_" + username.toUpperCase();
         try {
             FileInputStream fileInputStream = openFileInput(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -70,10 +94,18 @@ public class LogInActivity extends AppCompatActivity {
     private void comparePasswords(String password, String filePassword) {
         if (filePassword.equals(password)) {
             isPasswordOk = true;
+            savePreferences();
         } else {
             isPasswordOk = false;
             alert("The password is incorrect...");
         }
+    }
+
+    private void savePreferences() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_LAST_USER, filename);
+        editor.apply();
     }
 
     private void alert(String message) {
@@ -82,6 +114,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void startMain() {
         Intent main = new Intent(this, MainActivity.class);
+        main.putExtra("user_path", filename);
         startActivity(main);
     }
 }

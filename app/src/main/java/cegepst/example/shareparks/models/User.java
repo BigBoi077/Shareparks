@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String lastName;
     private String username;
     private String password;
+    private boolean isConnected;
 
     public String getFirstName() {
         return firstName;
@@ -38,5 +39,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
     }
 }

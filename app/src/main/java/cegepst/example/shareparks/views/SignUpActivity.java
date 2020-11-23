@@ -53,6 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.setLastName(lastName);
         user.setUsername(username);
         user.setPassword(password);
+        user.setConnected(true);
         makeLocalFile(user);
         goToLogIn();
     }
