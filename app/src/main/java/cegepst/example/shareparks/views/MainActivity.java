@@ -30,7 +30,9 @@ import cegepst.example.shareparks.models.User;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CAMERA = 1;
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private CreatePostFragment createPostFragment;
     private User user;
     private Bitmap image;
     private String userPath;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startPostFragment() {
-        CreatePostFragment createPostFragment = CreatePostFragment.newInstance(user.getUsername());
+        createPostFragment = CreatePostFragment.newInstance(user.getUsername());
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, createPostFragment).commit();
     }
 
@@ -120,19 +122,20 @@ public class MainActivity extends AppCompatActivity {
         initDrawerNavigation();
     }
 
-    public void startCameraActivity(View view) {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
-        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
-    }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != REQUEST_CODE_CAMERA || resultCode != RESULT_OK) {
             return;
         }
         Bundle extras = data.getExtras();
         image = (Bitmap) extras.get("data");
+        createPostFragment.passImage(image);
+    }
+
+    public void startCameraActivity(View view) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
+        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
     }
 
     private void saveConnectionInformation(boolean isConnected) {

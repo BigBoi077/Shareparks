@@ -1,9 +1,11 @@
 package cegepst.example.shareparks.views;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import cegepst.example.shareparks.R;
 public class CreatePostFragment extends Fragment {
 
     private static final String ARG_AUTHOR = "author";
+    private Bitmap image;
     private String author;
 
     public static CreatePostFragment newInstance(String author) {
@@ -22,6 +25,12 @@ public class CreatePostFragment extends Fragment {
         args.putString(ARG_AUTHOR, author);
         createPostFragment.setArguments(args);
         return createPostFragment;
+    }
+
+    public void passImage(Bitmap image) {
+        this.image = image;
+        ImageView imageView = getView().findViewById(R.id.imageView);
+        imageView.setImageBitmap(image);
     }
 
     @Override
@@ -43,6 +52,5 @@ public class CreatePostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 }

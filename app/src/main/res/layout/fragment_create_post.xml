@@ -15,17 +15,52 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="launchPhotoSelection"
+        android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:id="@+id/captionInput"
         android:layout_width="350dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
+        android:hint="@string/descriptionHint"
         android:inputType="textMultiLine"
         android:lines="8"
         android:maxLines="10"
         android:minLines="6"
         android:scrollbars="vertical" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:onClick="startCameraActivity"
+            android:text="@string/actionPicture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.261" />
+
+        <Button
+            android:id="@+id/postButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="72dp"
+            android:onClick="actionPost"
+            android:text="@string/actionPost"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.261" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

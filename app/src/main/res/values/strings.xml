@@ -20,4 +20,7 @@
     <string name="appSettings">Settings</string>
     <string name="action_open">Open</string>
     <string name="action_close">Close</string>
+    <string name="descriptionHint">Write a caption here</string>
+    <string name="actionPost">Post</string>
+    <string name="actionPicture">Camera</string>
 </resources>
