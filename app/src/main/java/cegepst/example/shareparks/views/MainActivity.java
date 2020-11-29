@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +24,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import cegepst.example.shareparks.R;
+import cegepst.example.shareparks.models.Post;
 import cegepst.example.shareparks.models.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CreatePostFragment createPostFragment;
+    private FeedFragment feedFragment;
+    private FeedAdapter feedAdapter;
     private User user;
     private Bitmap image;
     private String userPath;
+    private ArrayList<Post> posts;
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startPostFragment() {
         createPostFragment = CreatePostFragment.newInstance(user.getUsername());
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, createPostFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, createPostFragment).commit();
     }
 
     @Override
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             userPath = getIntent().getStringExtra("user_path");
             getCurrentUser();
             saveConnectionInformation(true);
+            alert(user.getUsername() + " is connected!");
         }
         initBottomNavigation();
         initDrawerNavigation();
@@ -131,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = data.getExtras();
         image = (Bitmap) extras.get("data");
         createPostFragment.passImage(image);
+        createPostFragment.getDescription();
     }
 
     public void startCameraActivity(View view) {
@@ -157,5 +165,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void alert(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

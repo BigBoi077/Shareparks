@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/authorNamePost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="12dp"
+        android:padding="4dp"
+        android:text="@string/nameHint" />
+
+    <ImageView
+        android:id="@+id/imagePost"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/ic_camera" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/WildSand"
+            android:src="@drawable/ic_heart" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/WildSand"
+            android:src="@drawable/ic_comment" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/WildSand"
+            android:src="@drawable/ic_send" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/nbrLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/likesDefault" />
+
+    <TextView
+        android:id="@+id/descriptionPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/descriptionHint" />
+
+</LinearLayout>

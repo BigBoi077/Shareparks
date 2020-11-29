@@ -9,6 +9,10 @@ public class User implements Serializable {
     private String password;
     private boolean isConnected;
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }

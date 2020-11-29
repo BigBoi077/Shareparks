@@ -23,4 +23,5 @@
     <string name="descriptionHint">Write a caption here</string>
     <string name="actionPost">Post</string>
     <string name="actionPicture">Camera</string>
+    <string name="likesDefault">0 likes</string>
 </resources>
