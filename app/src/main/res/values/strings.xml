@@ -14,14 +14,17 @@
     <string name="addCircleIcon">Post</string>
     <string name="marketIcon">Marketplace</string>
     <string name="accountIcon">Account</string>
-    <string name="terminateSession">Disconnect</string>
+    <string name="disconnectSession">Disconnect</string>
+    <string name="terminateSessionMessage">Are you sure you want to disconnect from Shareparks ?</string>
     <string name="reportBug">Report Bug</string>
     <string name="actionAccountManagement">My Account</string>
     <string name="appSettings">Settings</string>
-    <string name="action_open">Open</string>
-    <string name="action_close">Close</string>
+    <string name="actionOpen">Open</string>
+    <string name="actionClose">Close</string>
     <string name="descriptionHint">Write a caption here</string>
     <string name="actionPost">Post</string>
     <string name="actionPicture">Camera</string>
     <string name="likesDefault">0 likes</string>
+    <string name="close_session_true">Yes</string>
+    <string name="close_session_false">Close</string>
 </resources>

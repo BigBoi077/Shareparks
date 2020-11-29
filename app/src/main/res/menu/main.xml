@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/actionTerminateSession"
-        android:title="@string/terminateSession"
+        android:title="@string/disconnectSession"
         app:showAsAction="never" />
 
 </menu>

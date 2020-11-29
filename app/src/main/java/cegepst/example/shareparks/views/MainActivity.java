@@ -1,5 +1,7 @@
 package cegepst.example.shareparks.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.action_open, R.string.action_close);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.actionOpen, R.string.actionClose);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         if (getSupportActionBar() != null) {
@@ -96,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void disconnectUserDialog() {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(R.string.disconnectSession)
+                .setMessage(R.string.terminateSessionMessage)
+                .setPositiveButton(R.string.close_session_true, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        disconnectUser();
+                    }
+                }).setNegativeButton(R.string.close_session_false, null).show();
+    }
+
     private void startPostFragment() {
         createPostFragment = CreatePostFragment.newInstance(user.getUsername());
         hideFeed(true);
@@ -129,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.actionReportBug:
                 return true;
             case R.id.actionTerminateSession:
+                disconnectUserDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -208,6 +223,12 @@ public class MainActivity extends AppCompatActivity {
         photoSelection.setAction(Intent.ACTION_PICK);
         photoSelection.setDataAndType(Uri.parse("content://media/external/images/media"), "image/*");
         startActivityForResult(photoSelection, REQUEST_IMAGES_SELECTION);
+    }
+
+    private void disconnectUser() {
+        saveConnectionInformation(false);
+        Intent intent = new Intent(this, LogInActivity.class);
+        startActivity(intent);
     }
 
     private void saveConnectionInformation(boolean isConnected) {
