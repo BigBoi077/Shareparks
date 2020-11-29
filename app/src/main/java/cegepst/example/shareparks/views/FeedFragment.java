@@ -14,7 +14,6 @@ import cegepst.example.shareparks.R;
 public class FeedFragment extends Fragment {
 
     public static FeedFragment newInstance() {
-        Bundle args = new Bundle();
         FeedFragment feedFragment = new FeedFragment();
         return feedFragment;
     }

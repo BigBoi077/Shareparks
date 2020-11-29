@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="400dp"
     android:layout_gravity="center"
+    android:layout_margin="32dp"
     android:orientation="vertical">
 
     <TextView
@@ -30,21 +31,21 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="8dp"
-            android:backgroundTint="@color/WildSand"
+            android:backgroundTint="@android:color/white"
             android:src="@drawable/ic_heart" />
 
         <ImageButton
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="8dp"
-            android:backgroundTint="@color/WildSand"
+            android:backgroundTint="@android:color/white"
             android:src="@drawable/ic_comment" />
 
         <ImageButton
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="8dp"
-            android:backgroundTint="@color/WildSand"
+            android:backgroundTint="@android:color/white"
             android:src="@drawable/ic_send" />
     </LinearLayout>
 
