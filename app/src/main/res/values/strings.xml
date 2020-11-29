@@ -27,4 +27,6 @@
     <string name="likesDefault">0 likes</string>
     <string name="close_session_true">Yes</string>
     <string name="close_session_false">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="bugReportHint">Please specify the bug you encountered and where</string>
 </resources>

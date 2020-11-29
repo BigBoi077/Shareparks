@@ -1,7 +1,6 @@
 package cegepst.example.shareparks.views;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -99,15 +99,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void disconnectUserDialog() {
-        new AlertDialog.Builder(MainActivity.this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.disconnectSession)
                 .setMessage(R.string.terminateSessionMessage)
-                .setPositiveButton(R.string.close_session_true, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        disconnectUser();
-                    }
-                }).setNegativeButton(R.string.close_session_false, null).show();
+                .setPositiveButton(R.string.close_session_true, (dialogInterface, i) -> disconnectUser())
+                .setNegativeButton(R.string.close_session_false, null).show();
+    }
+
+    private void reportBugDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.report_bug_dialog, null))
+                .setPositiveButton(R.string.reportBug, (dialog, id) -> {
+                    alert("Bug has been reported to the developpers !");
+                })
+                .setNegativeButton(R.string.cancel, null);
+        builder.create().show();
     }
 
     private void startPostFragment() {
@@ -141,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.actionAcountManagement:
                 return true;
             case R.id.actionReportBug:
+                reportBugDialog();
                 return true;
             case R.id.actionTerminateSession:
                 disconnectUserDialog();
