@@ -43,12 +43,13 @@ public class CreatePostFragment extends Fragment {
         caption = captionInput.getText().toString();
     }
 
-    public void makePost() {
+    public Post makePost() {
         Post post = new Post();
         post.setAuthor(author);
         post.setImage(image);
         post.setCaption(caption);
         post.setNbrLikes(new Random().nextInt());
+        return post;
     }
 
     @Override

@@ -8,6 +8,22 @@ public class Post {
     private String caption;
     private int nbrLikes;
 
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public int getNbrLikes() {
+        return nbrLikes;
+    }
+
     public void setImage(Bitmap image) {
         this.image = image;
     }

@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -127,6 +129,24 @@ public class MainActivity extends AppCompatActivity {
         }
         initBottomNavigation();
         initDrawerNavigation();
+        initFeedContent();
+    }
+
+    private void initFeedContent() {
+        posts = new ArrayList<>();
+        feedFragment = FeedFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
+        RecyclerView listView = findViewById(R.id.feedList);
+        feedAdapter = new FeedAdapter(posts);
+        listView.setAdapter(feedAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        feedAdapter.notifyDataSetChanged();
+    }
+
+    public void actionPost(View view) {
+        posts.add(createPostFragment.makePost());
+        feedAdapter.notifyDataSetChanged();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
     }
 
     @Override
