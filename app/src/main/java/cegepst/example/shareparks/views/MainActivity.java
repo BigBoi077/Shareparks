@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,8 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     private Bitmap image;
     private String userPath;
-    private FeedAdapter feedAdapter;
     private ArrayList<Post> posts;
 
     private void initDrawerNavigation() {
@@ -82,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.idHome:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
                     return true;
                 case R.id.idMap:
                     return true;
@@ -119,17 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startPostFragment() {
         createPostFragment = CreatePostFragment.newInstance(user.getUsername());
-        hideFeed(true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, createPostFragment).commit();
-    }
-
-    private void hideFeed(boolean isHidden) {
-        RecyclerView feed = findViewById(R.id.feedList);
-        if (isHidden) {
-            feed.setVisibility(View.GONE);
-        } else {
-            feed.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -174,20 +161,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFeedContent() {
-        feedFragment = FeedFragment.newInstance();
         posts = new ArrayList<>();
-        RecyclerView listView = findViewById(R.id.feedList);
-        feedAdapter = new FeedAdapter(posts);
-        listView.setAdapter(feedAdapter);
-        listView.setLayoutManager(new LinearLayoutManager(this));
+        feedFragment = FeedFragment.newInstance(posts);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
 
     }
 
     public void actionPost(View view) {
         posts.add(createPostFragment.makePost());
-        feedAdapter.notifyDataSetChanged();
-        hideFeed(false);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
     }
 
@@ -197,26 +178,29 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (requestCode == REQUEST_IMAGES_SELECTION && resultCode == RESULT_OK) {
-            Log.d("FROM", " SELECTION");
-            try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ImageView imageView = createPostFragment.getView().findViewById(R.id.imageView);
-                imageView.setImageBitmap(selectedImage);
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                image = drawable.getBitmap();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-            }
-            createPostFragment.passImage(image);
-            createPostFragment.getDescription();
+        if (requestCode == REQUEST_IMAGES_SELECTION) {
+            mangePhotoSelection(data);
             return;
         }
         Bundle extras = data.getExtras();
         image = (Bitmap) extras.get("data");
+        createPostFragment.passImage(image);
+        createPostFragment.getDescription();
+    }
+
+    private void mangePhotoSelection(@Nullable Intent data) {
+        try {
+            final Uri imageUri = data.getData();
+            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            ImageView imageView = createPostFragment.getView().findViewById(R.id.imageView);
+            imageView.setImageBitmap(selectedImage);
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            image = drawable.getBitmap();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
         createPostFragment.passImage(image);
         createPostFragment.getDescription();
     }
