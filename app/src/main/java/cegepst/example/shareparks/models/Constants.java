@@ -1,7 +1,6 @@
 package cegepst.example.shareparks.models;
 
 public class Constants {
-
     public static final int REQUEST_CODE_CAMERA = 1;
     public static final int REQUEST_IMAGES_SELECTION = 2;
     public static final String PREF_MESSAGES = "message";

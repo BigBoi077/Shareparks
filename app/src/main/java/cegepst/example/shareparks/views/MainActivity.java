@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -207,11 +208,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void toggleDarkMode(View view) {
         saveDarkModePreference();
+        Log.d("Dark mode", String.valueOf(isDarkModeOn));
         if (isDarkModeOn) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        alert("To apply the preference please relaunch the app");
     }
 
     private void saveDarkModePreference() {

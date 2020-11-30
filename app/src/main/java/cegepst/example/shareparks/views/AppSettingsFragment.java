@@ -3,6 +3,7 @@ package cegepst.example.shareparks.views;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class AppSettingsFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         isDarkModeOn = sharedPreferences.getBoolean(Constants.PREF_DARK_MODE, false);
         ((Switch) getView().findViewById(R.id.darkModeSwitch)).setChecked(isDarkModeOn);
+        Log.d("Dark mode app", String.valueOf(((Switch) getView().findViewById(R.id.darkModeSwitch)).isChecked()));
     }
 
     public boolean getIsDarkModeOn() {
