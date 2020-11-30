@@ -1,12 +1,15 @@
 package cegepst.example.shareparks.views;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,15 +47,20 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CAMERA = 1;
     private static final int REQUEST_IMAGES_SELECTION = 2;
 
+    private static final String PREF_MESSAGES = "message";
+    private static final String PREF_DARK_MODE = "pref_dark_mode";
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CreatePostFragment createPostFragment;
     private FeedFragment feedFragment;
     private UserSettingsFragment userSettingsFragment;
+    private AppSettingsFragment appSettingsFragment;
     private User user;
     private Bitmap image;
     private String userPath;
     private String customMessage;
     private ArrayList<Post> posts;
+    private boolean isDarkModeOn;
 
     private void initDrawerNavigation() {
         DrawerLayout drawerLayout = findViewById(R.id.menuDrawer);
@@ -65,8 +74,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.idHome:
+                    refreshFeed();
                     return true;
                 case R.id.idSettings:
+                    startAppSettingsFragment();
                     return true;
                 default:
                     return false;
@@ -98,8 +109,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void startAppSettingsFragment() {
+        appSettingsFragment = AppSettingsFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, appSettingsFragment).commit();
+    }
+
     private void startUserSettingsFragment() {
-        userSettingsFragment = UserSettingsFragment.newInstance();
+        userSettingsFragment = UserSettingsFragment.newInstance(user);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, userSettingsFragment).commit();
     }
 
@@ -145,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.actionAcountManagement:
+                startUserSettingsFragment();
                 return true;
             case R.id.actionReportBug:
                 reportBugDialog();
@@ -165,23 +182,49 @@ public class MainActivity extends AppCompatActivity {
             userPath = getIntent().getStringExtra("user_path");
             getCurrentUser();
             saveConnectionInformation(true);
-            alert(user.getUsername() + " is connected!");
+            toggleLogInMessage();
         }
         initBottomNavigation();
         initDrawerNavigation();
         initFeedContent();
     }
 
+    private void toggleLogInMessage() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        customMessage = preferences.getString(PREF_MESSAGES, "");
+        if (customMessage.equals("")) {
+            alert(user.getUsername() + " is connected!");
+        } else {
+            alert(customMessage);
+        }
+    }
+
     private void initFeedContent() {
         posts = new ArrayList<>();
         feedFragment = FeedFragment.newInstance(posts);
         refreshFeed();
-
     }
 
     public void actionPost(View view) {
         posts.add(createPostFragment.makePost());
         refreshFeed();
+    }
+
+    public void toggleDarkMode(View view) {
+        saveDarkModePreference();
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void saveDarkModePreference() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        isDarkModeOn = sharedPreferences.getBoolean(PREF_DARK_MODE, false);
+        editor.putBoolean(PREF_DARK_MODE, appSettingsFragment.getIsDarkModeOn());
+        editor.apply();
     }
 
     @Override
@@ -215,6 +258,31 @@ public class MainActivity extends AppCompatActivity {
         }
         createPostFragment.passImage(image);
         createPostFragment.getDescription();
+    }
+
+    public void saveUserInformation(View view) {
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(userPath, MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            user.setFirstName(userSettingsFragment.getFirstNameInput());
+            user.setLastName(userSettingsFragment.getLastNameInput());
+            user.setPassword(userSettingsFragment.getNewPasswordInput());
+            customMessage = userSettingsFragment.getPersonalizedMessage();
+            managePersonalizedMessage();
+            objectOutputStream.writeObject(user);
+        } catch (IOException e) {
+            alert("Something did not go as expected please try again . . .");
+            e.printStackTrace();
+        }
+        alert("New information saved");
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
+    }
+
+    private void managePersonalizedMessage() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_MESSAGES, customMessage);
+        editor.apply();
     }
 
     public void startCameraActivity(View view) {

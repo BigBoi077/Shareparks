@@ -47,7 +47,11 @@ public class CreatePostFragment extends Fragment {
         Post post = new Post();
         post.setAuthor(author);
         post.setImage(image);
-        post.setCaption(caption.trim());
+        if (caption != null) {
+            post.setCaption(caption.trim());
+        } else {
+            post.setCaption(caption);
+        }
         post.setNbrLikes(new Random().nextInt(10000));
         return post;
     }
