@@ -39,16 +39,11 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import cegepst.example.shareparks.R;
+import cegepst.example.shareparks.models.Constants;
 import cegepst.example.shareparks.models.Post;
 import cegepst.example.shareparks.models.User;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final int REQUEST_CODE_CAMERA = 1;
-    private static final int REQUEST_IMAGES_SELECTION = 2;
-
-    private static final String PREF_MESSAGES = "message";
-    private static final String PREF_DARK_MODE = "pref_dark_mode";
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CreatePostFragment createPostFragment;
@@ -191,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void toggleLogInMessage() {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        customMessage = preferences.getString(PREF_MESSAGES, "");
+        customMessage = preferences.getString(Constants.PREF_MESSAGES, "");
         if (customMessage.equals("")) {
             alert(user.getUsername() + " is connected!");
         } else {
@@ -222,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
     private void saveDarkModePreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        isDarkModeOn = sharedPreferences.getBoolean(PREF_DARK_MODE, false);
-        editor.putBoolean(PREF_DARK_MODE, appSettingsFragment.getIsDarkModeOn());
+        isDarkModeOn = sharedPreferences.getBoolean(Constants.PREF_DARK_MODE, false);
+        editor.putBoolean(Constants.PREF_DARK_MODE, appSettingsFragment.getIsDarkModeOn());
         editor.apply();
     }
 
@@ -233,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (requestCode == REQUEST_IMAGES_SELECTION) {
+        if (requestCode == Constants.REQUEST_IMAGES_SELECTION) {
             mangePhotoSelection(data);
             return;
         }
@@ -281,20 +276,20 @@ public class MainActivity extends AppCompatActivity {
     private void managePersonalizedMessage() {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREF_MESSAGES, customMessage);
+        editor.putString(Constants.PREF_MESSAGES, customMessage);
         editor.apply();
     }
 
     public void startCameraActivity(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
-        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
     }
 
     public void launchPhotoSelection(View view) {
         Intent photoSelection = new Intent();
         photoSelection.setAction(Intent.ACTION_PICK);
         photoSelection.setDataAndType(Uri.parse("content://media/external/images/media"), "image/*");
-        startActivityForResult(photoSelection, REQUEST_IMAGES_SELECTION);
+        startActivityForResult(photoSelection, Constants.REQUEST_IMAGES_SELECTION);
     }
 
     private void disconnectUser() {

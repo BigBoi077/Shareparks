@@ -5,31 +5,35 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import cegepst.example.shareparks.R;
+import cegepst.example.shareparks.models.Constants;
 import cegepst.example.shareparks.models.User;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private final String PREF_LAST_USER = "pref_last_user";
     private User user;
     private String filename;
     private boolean isPasswordOk;
+    private boolean isDarkModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        toggleDarkMode();
         if (isLastUserConnected()) {
             Log.d("Was connected", "true");
             startMain();
@@ -39,7 +43,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private boolean isLastUserConnected() {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        String lastUser = preferences.getString(PREF_LAST_USER, "");
+        String lastUser = preferences.getString(Constants.PREF_LAST_USER, "");
         try {
             FileInputStream fileInputStream = openFileInput(lastUser);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -103,7 +107,7 @@ public class LogInActivity extends AppCompatActivity {
     private void savePreferences() {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREF_LAST_USER, filename);
+        editor.putString(Constants.PREF_LAST_USER, filename);
         editor.apply();
     }
 
@@ -115,5 +119,19 @@ public class LogInActivity extends AppCompatActivity {
         Intent main = new Intent(this, MainActivity.class);
         main.putExtra("user_path", filename);
         startActivity(main);
+    }
+
+    public void toggleDarkMode() {
+        getDartkModePreference();
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void getDartkModePreference() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isDarkModeOn = sharedPreferences.getBoolean(Constants.PREF_DARK_MODE, false);
     }
 }
