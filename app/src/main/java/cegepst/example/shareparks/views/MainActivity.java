@@ -46,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CreatePostFragment createPostFragment;
     private FeedFragment feedFragment;
+    private UserSettingsFragment userSettingsFragment;
     private User user;
     private Bitmap image;
     private String userPath;
+    private String customMessage;
     private ArrayList<Post> posts;
 
     private void initDrawerNavigation() {
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.idHome:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
+                    refreshFeed();
                     return true;
                 case R.id.idMap:
                     return true;
@@ -88,11 +90,21 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.idMarket:
                     return true;
                 case R.id.idAccount:
+                    startUserSettingsFragment();
                     return true;
                 default:
                     return false;
             }
         });
+    }
+
+    private void startUserSettingsFragment() {
+        userSettingsFragment = UserSettingsFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, userSettingsFragment).commit();
+    }
+
+    private void refreshFeed() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
     }
 
     private void disconnectUserDialog() {
@@ -163,13 +175,13 @@ public class MainActivity extends AppCompatActivity {
     private void initFeedContent() {
         posts = new ArrayList<>();
         feedFragment = FeedFragment.newInstance(posts);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
+        refreshFeed();
 
     }
 
     public void actionPost(View view) {
         posts.add(createPostFragment.makePost());
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, feedFragment).commit();
+        refreshFeed();
     }
 
     @Override

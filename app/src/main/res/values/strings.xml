@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Shareparks</string>
     <string name="usernameHint">Username</string>
     <string name="passwordHint">•••••••••••</string>
@@ -29,4 +29,10 @@
     <string name="close_session_false">Close</string>
     <string name="cancel">Cancel</string>
     <string name="bugReportHint">Please specify the bug you encountered and where</string>
+    <string name="firstNameHint">First Name</string>
+    <string name="lastNameHint2">Last Name</string>
+    <string name="actionSave">Save</string>
+    <string name="passwordWarning" tools:ignore="StringEscaping">Dont't forget your password!</string>
+    <string name="personalizedMessage">Here you can put a personalized message when the app opens. Try it out !</string>
+    <string name="gandalfQuote">A wizard is never late . . .</string>
 </resources>
